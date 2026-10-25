@@ -142,6 +142,8 @@ dt { color: var(--muted); font-size: 14px; }
 dd { margin: 0; overflow-wrap: anywhere; }
 .reg { font-size: 18px; font-family: var(--mono); }
 .puny { color: var(--muted); font-size: 13px; }
+mark.odd { padding: 0 1px; border-bottom-width: 3px; }
+#verdict-h:focus { outline: none; }
 .params { margin: 0; padding-left: 18px; }
 .params .flag { color: var(--moderate); font-weight: 600; }
 .flags { list-style: none; padding: 0; margin: 10px 0 0; }

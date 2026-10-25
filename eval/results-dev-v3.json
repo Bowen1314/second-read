@@ -1,7 +1,7 @@
 {
   "summary": {
     "file": "eval/dev.jsonl",
-    "generated": "2026-10-25T00:07:58.379Z",
+    "generated": "2026-10-25T00:25:57.120Z",
     "messages": 35,
     "scam": {
       "n": 20,
@@ -9,16 +9,16 @@
       "levels": [
         0,
         0,
-        2,
-        18
+        1,
+        19
       ]
     },
     "legit": {
       "n": 15,
       "flagged": 0,
       "levels": [
-        14,
-        1,
+        13,
+        2,
         0,
         0
       ]
@@ -26,68 +26,102 @@
     "signs": {
       "urgency": {
         "expected": 16,
-        "caught": 13
+        "caught": 13,
+        "scamExpected": 12,
+        "scamCaught": 12
       },
       "domain_mismatch": {
         "expected": 8,
-        "caught": 8
+        "caught": 8,
+        "scamExpected": 8,
+        "scamCaught": 8
       },
       "pay_to_earn": {
         "expected": 6,
-        "caught": 6
+        "caught": 6,
+        "scamExpected": 6,
+        "scamCaught": 6
       },
       "lookalike_domain": {
         "expected": 7,
-        "caught": 7
+        "caught": 7,
+        "scamExpected": 7,
+        "scamCaught": 7
       },
       "authority_impersonation": {
         "expected": 10,
-        "caught": 10
+        "caught": 10,
+        "scamExpected": 8,
+        "scamCaught": 8
       },
       "threat": {
         "expected": 10,
-        "caught": 9
+        "caught": 9,
+        "scamExpected": 9,
+        "scamCaught": 9
       },
       "secrecy": {
         "expected": 4,
-        "caught": 4
+        "caught": 4,
+        "scamExpected": 4,
+        "scamCaught": 4
       },
       "unsolicited_contact_switch": {
         "expected": 5,
-        "caught": 5
+        "caught": 5,
+        "scamExpected": 5,
+        "scamCaught": 5
       },
       "unusual_payment": {
         "expected": 8,
-        "caught": 8
+        "caught": 8,
+        "scamExpected": 8,
+        "scamCaught": 8
       },
       "gov_edu_mismatch": {
         "expected": 4,
-        "caught": 4
+        "caught": 4,
+        "scamExpected": 4,
+        "scamCaught": 4
       },
       "generic_greeting": {
         "expected": 2,
-        "caught": 2
+        "caught": 2,
+        "scamExpected": 2,
+        "scamCaught": 2
       },
       "credentials_request": {
         "expected": 8,
-        "caught": 8
+        "caught": 8,
+        "scamExpected": 8,
+        "scamCaught": 8
       },
       "link_shortener": {
         "expected": 2,
-        "caught": 2
+        "caught": 2,
+        "scamExpected": 2,
+        "scamCaught": 2
       },
       "freemail_sender": {
         "expected": 1,
-        "caught": 1
+        "caught": 1,
+        "scamExpected": 1,
+        "scamCaught": 1
       },
       "suspicious_link": {
         "expected": 2,
-        "caught": 2
+        "caught": 2,
+        "scamExpected": 2,
+        "scamCaught": 2
       }
     },
     "signsTotal": {
       "expected": 93,
       "caught": 89
+    },
+    "signsScam": {
+      "expected": 86,
+      "caught": 86
     },
     "missedScams": [],
     "falseAlarms": []
@@ -108,11 +142,13 @@
       "missed": [],
       "emitted": [
         "domain_mismatch",
+        "gov_edu_mismatch",
         "lookalike_domain",
         "pay_to_earn",
-        "urgency"
+        "urgency",
+        "authority_impersonation"
       ],
-      "points": 10
+      "points": 12
     },
     {
       "id": "D-S02",
@@ -161,12 +197,13 @@
         "credentials_request",
         "domain_mismatch",
         "gov_edu_mismatch",
+        "pay_to_earn",
         "freemail_sender",
         "urgency",
         "generic_greeting",
         "authority_impersonation"
       ],
-      "points": 19
+      "points": 22
     },
     {
       "id": "D-S04",
@@ -219,13 +256,14 @@
       "missed": [],
       "emitted": [
         "gov_edu_mismatch",
+        "lookalike_domain",
         "threat",
         "credentials_request",
         "link_shortener",
         "urgency",
         "authority_impersonation"
       ],
-      "points": 10
+      "points": 13
     },
     {
       "id": "D-S07",
@@ -295,7 +333,8 @@
         "lookalike_domain",
         "threat",
         "credentials_request",
-        "generic_greeting"
+        "generic_greeting",
+        "authority_impersonation"
       ],
       "points": 11
     },
@@ -315,7 +354,8 @@
         "domain_mismatch",
         "lookalike_domain",
         "credentials_request",
-        "urgency"
+        "urgency",
+        "authority_impersonation"
       ],
       "points": 9
     },
@@ -380,7 +420,8 @@
         "domain_mismatch",
         "lookalike_domain",
         "credentials_request",
-        "urgency"
+        "urgency",
+        "authority_impersonation"
       ],
       "points": 9
     },
@@ -409,7 +450,7 @@
       "id": "D-S15",
       "label": "scam",
       "difficulty": "",
-      "level": 2,
+      "level": 3,
       "flagged": true,
       "caught": [
         "urgency",
@@ -418,11 +459,13 @@
       ],
       "missed": [],
       "emitted": [
-        "threat",
         "link_shortener",
-        "urgency"
+        "threat",
+        "pay_to_earn",
+        "urgency",
+        "authority_impersonation"
       ],
-      "points": 5
+      "points": 10
     },
     {
       "id": "D-S16",
@@ -440,7 +483,8 @@
         "domain_mismatch",
         "pay_to_earn",
         "freemail_sender",
-        "unusual_payment"
+        "unusual_payment",
+        "authority_impersonation"
       ],
       "points": 8
     },
@@ -463,7 +507,8 @@
         "lookalike_domain",
         "credentials_request",
         "suspicious_link",
-        "urgency"
+        "urgency",
+        "authority_impersonation"
       ],
       "points": 11
     },
@@ -508,7 +553,8 @@
         "credentials_request",
         "domain_mismatch",
         "lookalike_domain",
-        "suspicious_link"
+        "suspicious_link",
+        "authority_impersonation"
       ],
       "points": 14
     },
@@ -539,7 +585,9 @@
       "flagged": false,
       "caught": [],
       "missed": [],
-      "emitted": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
       "points": 0
     },
     {
@@ -550,14 +598,16 @@
       "flagged": false,
       "caught": [],
       "missed": [],
-      "emitted": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
       "points": 0
     },
     {
       "id": "D-L03",
       "label": "legit",
       "difficulty": "",
-      "level": 0,
+      "level": 1,
       "flagged": false,
       "caught": [
         "authority_impersonation"
@@ -567,9 +617,10 @@
         "threat"
       ],
       "emitted": [
+        "credentials_request",
         "authority_impersonation"
       ],
-      "points": 0
+      "points": 1
     },
     {
       "id": "D-L04",
@@ -579,7 +630,9 @@
       "flagged": false,
       "caught": [],
       "missed": [],
-      "emitted": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
       "points": 0
     },
     {
@@ -590,7 +643,9 @@
       "flagged": false,
       "caught": [],
       "missed": [],
-      "emitted": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
       "points": 0
     },
     {
@@ -617,7 +672,8 @@
       "caught": [],
       "missed": [],
       "emitted": [
-        "unusual_payment"
+        "unusual_payment",
+        "authority_impersonation"
       ],
       "points": 2
     },
@@ -629,7 +685,9 @@
       "flagged": false,
       "caught": [],
       "missed": [],
-      "emitted": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
       "points": 0
     },
     {
@@ -666,7 +724,9 @@
       "flagged": false,
       "caught": [],
       "missed": [],
-      "emitted": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
       "points": 0
     },
     {
@@ -704,7 +764,9 @@
       "flagged": false,
       "caught": [],
       "missed": [],
-      "emitted": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
       "points": 0
     },
     {
@@ -717,7 +779,9 @@
       "missed": [
         "urgency"
       ],
-      "emitted": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
       "points": 0
     }
   ]

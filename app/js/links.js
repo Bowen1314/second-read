@@ -100,6 +100,24 @@ function dl1(a, b) {
   return la > lb ? a.slice(i + 1) === b.slice(i) : a.slice(i) === b.slice(i + 1);
 }
 function hasNonAscii(s) { return /[^\x00-\x7f]/.test(s); }
+function scriptName(ch) {
+  for (const sc of ['Cyrillic', 'Greek', 'Armenian', 'Cherokee', 'Han', 'Hiragana', 'Katakana', 'Hangul', 'Arabic', 'Hebrew', 'Latin']) {
+    if (new RegExp(`\\p{Script=${sc}}`, 'u').test(ch)) return sc === 'Latin' ? 'accented Latin' : sc;
+  }
+  return 'non-Latin';
+}
+/** Every non-ASCII character in a hostname, with what it imitates. */
+export function oddChars(hostUnicode) {
+  const out = [];
+  for (const ch of new Set(hostUnicode)) {
+    if (!hasNonAscii(ch)) continue;
+    out.push({ ch, cp: 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0'), script: scriptName(ch), looksLike: CONFUSABLES[ch] || null });
+  }
+  return out;
+}
+function describeOdd(list) {
+  return list.map((c) => `${c.script} “${c.ch}” (${c.cp})${c.looksLike ? `, which looks like “${c.looksLike}”` : ''}`).join('; ');
+}
 function scriptsOf(s) {
   const set = new Set();
   for (const ch of s) {
@@ -139,6 +157,7 @@ export function analyzeUrl(raw) {
   a.scheme = a.schemeGiven ? u.protocol.replace(':', '') : '(none given)';
   a.hostAscii = u.hostname.toLowerCase();
   a.hostUnicode = toUnicode(a.hostAscii);
+  a.oddChars = oddChars(a.hostUnicode);
   a.port = u.port || '';
   a.path = decodeSafe(u.pathname);
   a.fragment = u.hash ? decodeSafe(u.hash) : '';
@@ -163,7 +182,7 @@ export function analyzeUrl(raw) {
       add('free_hosting', 'weak', `“${a.publicSuffix}” is a service where anyone can create their own site. The owner here is “${a.registrableUnicode}”, not the service.`);
     }
     if (a.hostAscii.includes('xn--')) {
-      add('info', 'info', `This domain uses international characters (punycode “${a.hostAscii}”). It actually reads: “${a.hostUnicode}”.`);
+      add('info', 'info', `The address is written in “punycode” (${a.hostAscii}), the form browsers use for non-English letters. Decoded, it is “${a.hostUnicode}”: see the highlighted characters.`);
     }
     if (SHORTENERS.has(a.registrable)) {
       add('link_shortener', 'moderate', `${a.registrable} is a link shortener. The real destination is hidden, and Second Read will not open the link to find out.`);
@@ -200,7 +219,8 @@ function lookalikeChecks(a, add) {
     const sk = skeleton(labelUni);
     const brand = BRAND_LABELS.get(sk) || [...BRAND_LABELS.keys()].map((k) => (sk.includes(k) && k.length >= 4 ? BRAND_LABELS.get(k) : null)).find(Boolean);
     if (brand) {
-      add('lookalike_domain', 'strong', `“${labelUni}” is spelled with lookalike characters so that it reads like “${sk}” (${brand.name}). It is a different domain.`);
+      const odd = oddChars(labelUni);
+      add('lookalike_domain', 'strong', `This is not ${brand.name}. “${labelUni}” contains ${odd.length === 1 ? 'a character' : odd.length + ' characters'} from another alphabet: ${describeOdd(odd)}. On screen it looks like “${sk}”, but it is a different domain.`);
     } else if (sk !== labelUni.toLowerCase() && /^[a-z0-9-]+$/.test(sk)) {
       const mixed = scripts.size > 1 && scripts.has('Latin');
       add('lookalike_domain', mixed ? 'strong' : 'moderate', `“${labelUni}” ${mixed ? 'mixes ordinary letters with characters from another alphabet' : 'is made of characters'} that look like the Latin letters “${sk}” but are not.${isGovEduSuffix(info) ? ' The .edu or .gov ending does not make it the real one.' : ''}`);
@@ -269,7 +289,7 @@ export function parseSender(sender) {
     try { ascii = new URL('http://' + ascii).hostname; } catch { /* keep */ }
     const info = lookup(ascii);
     const display = s.replace(email[0], '').replace(/["<>]/g, '').trim();
-    return { kind: 'email', address: email[1], hostAscii: ascii, hostUnicode: toUnicode(ascii), info, registrable: info && info.registrable ? info.registrable : ascii, display };
+    return { kind: 'email', address: email[1], hostAscii: ascii, hostUnicode: toUnicode(ascii), oddChars: oddChars(toUnicode(ascii)), info, registrable: info && info.registrable ? info.registrable : ascii, display };
   }
   if (/^[+()\d\s.-]{5,}$/.test(s)) {
     const digits = s.replace(/\D/g, '');

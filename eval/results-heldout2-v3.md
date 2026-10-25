@@ -1,6 +1,6 @@
 # Evaluation: eval/heldout2.jsonl
 
-Generated 2026-10-25T00:16:07.373Z by `node scripts/evaluate.mjs eval/heldout2.jsonl`. All messages are synthetic.
+Generated 2026-10-25T00:25:57.351Z by `node scripts/evaluate.mjs eval/heldout2.jsonl`. All messages are synthetic.
 
 "Flagged" means the verdict was "Some warning signs" or "Several strong warning signs".
 

@@ -30,8 +30,10 @@ test('@smoke core flow: example message gets highlighted signs, link anatomy and
 test('@smoke a punycode lookalike is decoded and tied to the brand it imitates', async ({ page }) => {
   await page.goto('./');
   await page.selectOption('#sample', 'apple');
-  await expect(page.locator('.linkcard').first()).toContainText('аpple.com');
-  await expect(page.locator('.linkcard').first()).toContainText('Apple');
+  const card = page.locator('.linkcard').nth(1);
+  await expect(card.locator('mark.odd')).toHaveText(/^а/);
+  await expect(card).toContainText('U+0430');
+  await expect(card).toContainText('This is not Apple');
 });
 
 test('@smoke checking a message makes zero network requests, and nothing containing the input is ever requested', async ({ page }) => {

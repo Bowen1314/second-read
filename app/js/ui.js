@@ -106,7 +106,8 @@ function linkCards(r) {
       el('p', { class: 'raw' }, el('span', { class: 'k' }, 'Sender address '), el('code', {}, r.sender.address)),
       el('dl', {},
         row('Real domain', el('strong', { class: 'reg' }, r.sender.registrable)),
-        r.sender.hostUnicode !== r.sender.hostAscii ? row('Reads as', r.sender.hostUnicode) : null),
+        r.sender.hostUnicode !== r.sender.hostAscii ? row('Looks like', hostView(r.sender.hostUnicode, r.sender.oddChars)) : null,
+        oddRow(r.sender.oddChars)),
       flagList(r.sender.flags || [])));
   }
   for (const l of r.links) {
@@ -117,8 +118,9 @@ function linkCards(r) {
     cards.push(el('div', { class: 'linkcard' },
       el('p', { class: 'raw' }, el('span', { class: 'k' }, l.source === 'pasted' ? 'Pasted link ' : 'Link in message '), el('code', {}, l.raw)),
       el('dl', {},
-        row('Real website', el('strong', { class: 'reg' }, l.registrableUnicode || l.registrable),
-          l.registrableUnicode && l.registrableUnicode !== l.registrable ? el('span', { class: 'puny' }, ` (punycode: ${l.registrable})`) : null),
+        row('Real website', el('strong', { class: 'reg' }, hostView(l.registrableUnicode || l.registrable, l.oddChars)),
+          l.registrableUnicode && l.registrableUnicode !== l.registrable ? el('span', { class: 'puny' }, ` (registered as ${l.registrable})`) : null),
+        oddRow(l.oddChars),
         l.subdomain ? row('Part in front', l.subdomain + '.', el('span', { class: 'fine' }, ' (chosen by whoever owns the real website)')) : null,
         row('Domain ending', '.' + (l.publicSuffix || '')),
         l.path && l.path !== '/' ? row('Path', el('code', {}, l.path)) : null,
@@ -131,6 +133,21 @@ function linkCards(r) {
   return el('div', { class: 'panel' }, el('h3', {}, 'Links and sender, taken apart'),
     el('p', { class: 'fine' }, 'The “real website” is the part someone had to register. Everything to its left can be made up by its owner.'),
     ...cards);
+}
+/** Show a hostname with every non-ASCII character highlighted, so lookalikes are visible. */
+function hostView(unicode, odd) {
+  const span = el('span', { class: 'host' });
+  const set = new Map((odd || []).map((c) => [c.ch, c]));
+  for (const ch of unicode) {
+    const c = set.get(ch);
+    if (c) span.append(el('mark', { class: 't-strong odd', title: `${c.script} ${c.cp}` }, ch, el('span', { class: 'sr-only' }, ` (${c.script} character ${c.cp})`)));
+    else span.append(document.createTextNode(ch));
+  }
+  return span;
+}
+function oddRow(odd) {
+  if (!odd || !odd.length) return null;
+  return row('Unusual letters', el('ul', { class: 'params' }, odd.map((c) => el('li', {}, el('strong', {}, c.ch), ` is a ${c.script} character (${c.cp})${c.looksLike ? `, not the Latin “${c.looksLike}” it looks like` : ''}`))));
 }
 function row(k, ...v) { return el('div', { class: 'dlrow' }, el('dt', {}, k), el('dd', {}, ...v)); }
 function flagList(flags) {

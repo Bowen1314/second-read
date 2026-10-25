@@ -1,0 +1,1110 @@
+{
+  "summary": {
+    "file": "eval/heldout.jsonl",
+    "generated": "2026-10-25T00:25:57.234Z",
+    "messages": 55,
+    "scam": {
+      "n": 30,
+      "flagged": 30,
+      "levels": [
+        0,
+        0,
+        7,
+        23
+      ]
+    },
+    "legit": {
+      "n": 25,
+      "flagged": 0,
+      "levels": [
+        23,
+        2,
+        0,
+        0
+      ]
+    },
+    "signs": {
+      "urgency": {
+        "expected": 21,
+        "caught": 14,
+        "scamExpected": 15,
+        "scamCaught": 13
+      },
+      "threat": {
+        "expected": 10,
+        "caught": 10,
+        "scamExpected": 10,
+        "scamCaught": 10
+      },
+      "authority_impersonation": {
+        "expected": 21,
+        "caught": 17,
+        "scamExpected": 17,
+        "scamCaught": 16
+      },
+      "domain_mismatch": {
+        "expected": 16,
+        "caught": 8,
+        "scamExpected": 16,
+        "scamCaught": 8
+      },
+      "gov_edu_mismatch": {
+        "expected": 9,
+        "caught": 9,
+        "scamExpected": 9,
+        "scamCaught": 9
+      },
+      "pay_to_earn": {
+        "expected": 13,
+        "caught": 12,
+        "scamExpected": 13,
+        "scamCaught": 12
+      },
+      "secrecy": {
+        "expected": 8,
+        "caught": 8,
+        "scamExpected": 8,
+        "scamCaught": 8
+      },
+      "unusual_payment": {
+        "expected": 16,
+        "caught": 14,
+        "scamExpected": 15,
+        "scamCaught": 13
+      },
+      "credentials_request": {
+        "expected": 16,
+        "caught": 11,
+        "scamExpected": 13,
+        "scamCaught": 11
+      },
+      "unsolicited_contact_switch": {
+        "expected": 6,
+        "caught": 5,
+        "scamExpected": 6,
+        "scamCaught": 5
+      },
+      "link_shortener": {
+        "expected": 2,
+        "caught": 2,
+        "scamExpected": 2,
+        "scamCaught": 2
+      },
+      "lookalike_domain": {
+        "expected": 4,
+        "caught": 4,
+        "scamExpected": 4,
+        "scamCaught": 4
+      }
+    },
+    "signsTotal": {
+      "expected": 142,
+      "caught": 114
+    },
+    "signsScam": {
+      "expected": 128,
+      "caught": 111
+    },
+    "missedScams": [],
+    "falseAlarms": []
+  },
+  "per": [
+    {
+      "id": "H-S01",
+      "label": "scam",
+      "difficulty": "easy",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "threat",
+        "authority_impersonation",
+        "domain_mismatch",
+        "gov_edu_mismatch",
+        "pay_to_earn"
+      ],
+      "missed": [],
+      "emitted": [
+        "threat",
+        "domain_mismatch",
+        "gov_edu_mismatch",
+        "lookalike_domain",
+        "pay_to_earn",
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 15
+    },
+    {
+      "id": "H-S02",
+      "label": "scam",
+      "difficulty": "easy",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "threat",
+        "secrecy",
+        "unusual_payment",
+        "credentials_request",
+        "authority_impersonation",
+        "gov_edu_mismatch",
+        "domain_mismatch",
+        "pay_to_earn"
+      ],
+      "missed": [],
+      "emitted": [
+        "threat",
+        "secrecy",
+        "credentials_request",
+        "domain_mismatch",
+        "gov_edu_mismatch",
+        "lookalike_domain",
+        "pay_to_earn",
+        "unusual_payment",
+        "urgency",
+        "generic_greeting",
+        "authority_impersonation"
+      ],
+      "points": 24
+    },
+    {
+      "id": "H-S03",
+      "label": "scam",
+      "difficulty": "easy",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "threat",
+        "secrecy",
+        "unusual_payment",
+        "authority_impersonation",
+        "unsolicited_contact_switch"
+      ],
+      "missed": [],
+      "emitted": [
+        "threat",
+        "secrecy",
+        "unusual_payment",
+        "unsolicited_contact_switch",
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 14
+    },
+    {
+      "id": "H-S04",
+      "label": "scam",
+      "difficulty": "easy",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "threat",
+        "secrecy",
+        "unusual_payment",
+        "credentials_request",
+        "authority_impersonation"
+      ],
+      "missed": [],
+      "emitted": [
+        "threat",
+        "secrecy",
+        "unusual_payment",
+        "credentials_request",
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 15
+    },
+    {
+      "id": "H-S05",
+      "label": "scam",
+      "difficulty": "medium",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "threat",
+        "secrecy",
+        "authority_impersonation",
+        "unsolicited_contact_switch"
+      ],
+      "missed": [],
+      "emitted": [
+        "threat",
+        "secrecy",
+        "unsolicited_contact_switch",
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 11
+    },
+    {
+      "id": "H-S06",
+      "label": "scam",
+      "difficulty": "medium",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "threat",
+        "secrecy",
+        "unusual_payment",
+        "authority_impersonation",
+        "unsolicited_contact_switch",
+        "gov_edu_mismatch",
+        "domain_mismatch",
+        "pay_to_earn"
+      ],
+      "missed": [
+        "urgency"
+      ],
+      "emitted": [
+        "threat",
+        "secrecy",
+        "unusual_payment",
+        "domain_mismatch",
+        "gov_edu_mismatch",
+        "lookalike_domain",
+        "pay_to_earn",
+        "unsolicited_contact_switch",
+        "authority_impersonation"
+      ],
+      "points": 22
+    },
+    {
+      "id": "H-S07",
+      "label": "scam",
+      "difficulty": "easy",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "authority_impersonation",
+        "domain_mismatch",
+        "gov_edu_mismatch",
+        "pay_to_earn"
+      ],
+      "missed": [],
+      "emitted": [
+        "domain_mismatch",
+        "gov_edu_mismatch",
+        "lookalike_domain",
+        "pay_to_earn",
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 12
+    },
+    {
+      "id": "H-S08",
+      "label": "scam",
+      "difficulty": "easy",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "link_shortener",
+        "credentials_request",
+        "pay_to_earn"
+      ],
+      "missed": [
+        "domain_mismatch"
+      ],
+      "emitted": [
+        "credentials_request",
+        "link_shortener",
+        "pay_to_earn"
+      ],
+      "points": 7
+    },
+    {
+      "id": "H-S09",
+      "label": "scam",
+      "difficulty": "medium",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "pay_to_earn"
+      ],
+      "missed": [
+        "unusual_payment",
+        "domain_mismatch"
+      ],
+      "emitted": [
+        "gov_edu_mismatch",
+        "pay_to_earn",
+        "authority_impersonation"
+      ],
+      "points": 8
+    },
+    {
+      "id": "H-S10",
+      "label": "scam",
+      "difficulty": "easy",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "unusual_payment",
+        "pay_to_earn",
+        "unsolicited_contact_switch"
+      ],
+      "missed": [],
+      "emitted": [
+        "unusual_payment",
+        "pay_to_earn",
+        "unsolicited_contact_switch"
+      ],
+      "points": 8
+    },
+    {
+      "id": "H-S11",
+      "label": "scam",
+      "difficulty": "easy",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "secrecy",
+        "unusual_payment",
+        "pay_to_earn"
+      ],
+      "missed": [],
+      "emitted": [
+        "secrecy",
+        "unusual_payment",
+        "pay_to_earn",
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 10
+    },
+    {
+      "id": "H-S12",
+      "label": "scam",
+      "difficulty": "medium",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "unusual_payment",
+        "pay_to_earn",
+        "unsolicited_contact_switch"
+      ],
+      "missed": [],
+      "emitted": [
+        "domain_mismatch",
+        "pay_to_earn",
+        "freemail_sender",
+        "unusual_payment",
+        "unsolicited_contact_switch",
+        "authority_impersonation"
+      ],
+      "points": 10
+    },
+    {
+      "id": "H-S13",
+      "label": "scam",
+      "difficulty": "easy",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "threat",
+        "authority_impersonation",
+        "domain_mismatch",
+        "gov_edu_mismatch"
+      ],
+      "missed": [
+        "unusual_payment"
+      ],
+      "emitted": [
+        "threat",
+        "domain_mismatch",
+        "gov_edu_mismatch",
+        "lookalike_domain",
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 10
+    },
+    {
+      "id": "H-S14",
+      "label": "scam",
+      "difficulty": "easy",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "threat",
+        "unusual_payment",
+        "authority_impersonation",
+        "gov_edu_mismatch"
+      ],
+      "missed": [
+        "domain_mismatch"
+      ],
+      "emitted": [
+        "threat",
+        "unusual_payment",
+        "gov_edu_mismatch",
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 12
+    },
+    {
+      "id": "H-S15",
+      "label": "scam",
+      "difficulty": "medium",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "secrecy",
+        "unusual_payment",
+        "authority_impersonation"
+      ],
+      "missed": [
+        "urgency"
+      ],
+      "emitted": [
+        "secrecy",
+        "unusual_payment",
+        "authority_impersonation"
+      ],
+      "points": 8
+    },
+    {
+      "id": "H-S16",
+      "label": "scam",
+      "difficulty": "easy",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "secrecy",
+        "unusual_payment",
+        "authority_impersonation"
+      ],
+      "missed": [
+        "unsolicited_contact_switch"
+      ],
+      "emitted": [
+        "secrecy",
+        "unusual_payment",
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 7
+    },
+    {
+      "id": "H-S17",
+      "label": "scam",
+      "difficulty": "medium",
+      "level": 2,
+      "flagged": true,
+      "caught": [
+        "unusual_payment",
+        "pay_to_earn"
+      ],
+      "missed": [],
+      "emitted": [
+        "pay_to_earn",
+        "unusual_payment",
+        "authority_impersonation"
+      ],
+      "points": 5
+    },
+    {
+      "id": "H-S18",
+      "label": "scam",
+      "difficulty": "easy",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "threat",
+        "credentials_request",
+        "authority_impersonation",
+        "gov_edu_mismatch",
+        "link_shortener"
+      ],
+      "missed": [
+        "domain_mismatch"
+      ],
+      "emitted": [
+        "credentials_request",
+        "gov_edu_mismatch",
+        "threat",
+        "link_shortener",
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 11
+    },
+    {
+      "id": "H-S19",
+      "label": "scam",
+      "difficulty": "medium",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "threat",
+        "credentials_request",
+        "authority_impersonation",
+        "lookalike_domain",
+        "domain_mismatch"
+      ],
+      "missed": [],
+      "emitted": [
+        "unusual_payment",
+        "credentials_request",
+        "domain_mismatch",
+        "lookalike_domain",
+        "threat",
+        "authority_impersonation"
+      ],
+      "points": 14
+    },
+    {
+      "id": "H-S20",
+      "label": "scam",
+      "difficulty": "subtle",
+      "level": 2,
+      "flagged": true,
+      "caught": [
+        "credentials_request"
+      ],
+      "missed": [],
+      "emitted": [
+        "credentials_request",
+        "authority_impersonation"
+      ],
+      "points": 3
+    },
+    {
+      "id": "H-S21",
+      "label": "scam",
+      "difficulty": "medium",
+      "level": 2,
+      "flagged": true,
+      "caught": [
+        "credentials_request"
+      ],
+      "missed": [],
+      "emitted": [
+        "credentials_request"
+      ],
+      "points": 3
+    },
+    {
+      "id": "H-S22",
+      "label": "scam",
+      "difficulty": "medium",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "unusual_payment",
+        "pay_to_earn"
+      ],
+      "missed": [],
+      "emitted": [
+        "domain_mismatch",
+        "pay_to_earn",
+        "freemail_sender",
+        "unusual_payment",
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 9
+    },
+    {
+      "id": "H-S23",
+      "label": "scam",
+      "difficulty": "medium",
+      "level": 2,
+      "flagged": true,
+      "caught": [
+        "urgency",
+        "unusual_payment",
+        "pay_to_earn"
+      ],
+      "missed": [],
+      "emitted": [
+        "pay_to_earn",
+        "unusual_payment",
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 6
+    },
+    {
+      "id": "H-S24",
+      "label": "scam",
+      "difficulty": "subtle",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "credentials_request",
+        "authority_impersonation",
+        "gov_edu_mismatch"
+      ],
+      "missed": [
+        "domain_mismatch"
+      ],
+      "emitted": [
+        "credentials_request",
+        "gov_edu_mismatch",
+        "authority_impersonation"
+      ],
+      "points": 6
+    },
+    {
+      "id": "H-S25",
+      "label": "scam",
+      "difficulty": "subtle",
+      "level": 2,
+      "flagged": true,
+      "caught": [
+        "lookalike_domain"
+      ],
+      "missed": [
+        "credentials_request",
+        "domain_mismatch"
+      ],
+      "emitted": [
+        "lookalike_domain"
+      ],
+      "points": 3
+    },
+    {
+      "id": "H-S26",
+      "label": "scam",
+      "difficulty": "subtle",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "credentials_request",
+        "authority_impersonation",
+        "lookalike_domain",
+        "domain_mismatch"
+      ],
+      "missed": [],
+      "emitted": [
+        "domain_mismatch",
+        "gov_edu_mismatch",
+        "lookalike_domain",
+        "credentials_request",
+        "urgency",
+        "generic_greeting",
+        "authority_impersonation"
+      ],
+      "points": 10
+    },
+    {
+      "id": "H-S27",
+      "label": "scam",
+      "difficulty": "subtle",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "authority_impersonation",
+        "lookalike_domain",
+        "domain_mismatch"
+      ],
+      "missed": [
+        "credentials_request"
+      ],
+      "emitted": [
+        "domain_mismatch",
+        "lookalike_domain",
+        "authority_impersonation"
+      ],
+      "points": 6
+    },
+    {
+      "id": "H-S28",
+      "label": "scam",
+      "difficulty": "subtle",
+      "level": 2,
+      "flagged": true,
+      "caught": [],
+      "missed": [
+        "domain_mismatch"
+      ],
+      "emitted": [
+        "credentials_request",
+        "suspicious_link"
+      ],
+      "points": 4
+    },
+    {
+      "id": "H-S29",
+      "label": "scam",
+      "difficulty": "subtle",
+      "level": 2,
+      "flagged": true,
+      "caught": [
+        "credentials_request"
+      ],
+      "missed": [
+        "pay_to_earn"
+      ],
+      "emitted": [
+        "credentials_request"
+      ],
+      "points": 3
+    },
+    {
+      "id": "H-S30",
+      "label": "scam",
+      "difficulty": "subtle",
+      "level": 3,
+      "flagged": true,
+      "caught": [
+        "credentials_request",
+        "gov_edu_mismatch"
+      ],
+      "missed": [
+        "authority_impersonation",
+        "domain_mismatch"
+      ],
+      "emitted": [
+        "credentials_request",
+        "gov_edu_mismatch"
+      ],
+      "points": 6
+    },
+    {
+      "id": "H-L01",
+      "label": "legit",
+      "difficulty": "medium",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
+      "points": 0
+    },
+    {
+      "id": "H-L02",
+      "label": "legit",
+      "difficulty": "easy",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [],
+      "points": 0
+    },
+    {
+      "id": "H-L03",
+      "label": "legit",
+      "difficulty": "easy",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
+      "points": 0
+    },
+    {
+      "id": "H-L04",
+      "label": "legit",
+      "difficulty": "easy",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
+      "points": 0
+    },
+    {
+      "id": "H-L05",
+      "label": "legit",
+      "difficulty": "medium",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [
+        "urgency"
+      ],
+      "emitted": [
+        "authority_impersonation"
+      ],
+      "points": 0
+    },
+    {
+      "id": "H-L06",
+      "label": "legit",
+      "difficulty": "medium",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [
+        "urgency",
+        "authority_impersonation"
+      ],
+      "emitted": [],
+      "points": 0
+    },
+    {
+      "id": "H-L07",
+      "label": "legit",
+      "difficulty": "medium",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [
+        "urgency"
+      ],
+      "emitted": [],
+      "points": 0
+    },
+    {
+      "id": "H-L08",
+      "label": "legit",
+      "difficulty": "easy",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
+      "points": 0
+    },
+    {
+      "id": "H-L09",
+      "label": "legit",
+      "difficulty": "easy",
+      "level": 1,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [
+        "unusual_payment",
+        "authority_impersonation"
+      ],
+      "points": 2
+    },
+    {
+      "id": "H-L10",
+      "label": "legit",
+      "difficulty": "easy",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
+      "points": 0
+    },
+    {
+      "id": "H-L11",
+      "label": "legit",
+      "difficulty": "easy",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [],
+      "points": 0
+    },
+    {
+      "id": "H-L12",
+      "label": "legit",
+      "difficulty": "easy",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [],
+      "points": 0
+    },
+    {
+      "id": "H-L13",
+      "label": "legit",
+      "difficulty": "medium",
+      "level": 1,
+      "flagged": false,
+      "caught": [
+        "unusual_payment"
+      ],
+      "missed": [],
+      "emitted": [
+        "unusual_payment",
+        "authority_impersonation"
+      ],
+      "points": 2
+    },
+    {
+      "id": "H-L14",
+      "label": "legit",
+      "difficulty": "easy",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [
+        "authority_impersonation"
+      ],
+      "emitted": [],
+      "points": 0
+    },
+    {
+      "id": "H-L15",
+      "label": "legit",
+      "difficulty": "subtle",
+      "level": 0,
+      "flagged": false,
+      "caught": [
+        "urgency"
+      ],
+      "missed": [
+        "credentials_request"
+      ],
+      "emitted": [
+        "urgency",
+        "authority_impersonation"
+      ],
+      "points": 0
+    },
+    {
+      "id": "H-L16",
+      "label": "legit",
+      "difficulty": "subtle",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [
+        "credentials_request"
+      ],
+      "emitted": [],
+      "points": 0
+    },
+    {
+      "id": "H-L17",
+      "label": "legit",
+      "difficulty": "easy",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
+      "points": 0
+    },
+    {
+      "id": "H-L18",
+      "label": "legit",
+      "difficulty": "medium",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [
+        "urgency"
+      ],
+      "emitted": [],
+      "points": 0
+    },
+    {
+      "id": "H-L19",
+      "label": "legit",
+      "difficulty": "medium",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [
+        "urgency"
+      ],
+      "emitted": [],
+      "points": 0
+    },
+    {
+      "id": "H-L20",
+      "label": "legit",
+      "difficulty": "medium",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
+      "points": 0
+    },
+    {
+      "id": "H-L21",
+      "label": "legit",
+      "difficulty": "subtle",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
+      "points": 0
+    },
+    {
+      "id": "H-L22",
+      "label": "legit",
+      "difficulty": "easy",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [
+        "authority_impersonation"
+      ],
+      "emitted": [],
+      "points": 0
+    },
+    {
+      "id": "H-L23",
+      "label": "legit",
+      "difficulty": "subtle",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [
+        "credentials_request"
+      ],
+      "emitted": [],
+      "points": 0
+    },
+    {
+      "id": "H-L24",
+      "label": "legit",
+      "difficulty": "medium",
+      "level": 0,
+      "flagged": false,
+      "caught": [
+        "authority_impersonation"
+      ],
+      "missed": [],
+      "emitted": [
+        "authority_impersonation"
+      ],
+      "points": 0
+    },
+    {
+      "id": "H-L25",
+      "label": "legit",
+      "difficulty": "easy",
+      "level": 0,
+      "flagged": false,
+      "caught": [],
+      "missed": [],
+      "emitted": [],
+      "points": 0
+    }
+  ]
+}

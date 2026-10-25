@@ -285,7 +285,7 @@ function detectScenarios(text, mentioned, signs, links, sender) {
   if (['fbi', 'marshals', 'cnpolice', 'cbp'].some((i) => ids.has(i)) || /\b(police|sheriff|officer|warrant|detective)\b/i.test(text) || /(公安|警察|大使馆|领事馆)/.test(text)) sc.add('police');
   if (ids.has('irs') || /\b(tax(es)?|refund|w-2|1040)\b/i.test(text)) sc.add('tax');
   if (['usps', 'ups', 'fedex', 'dhl'].some((i) => ids.has(i)) || /\b(package|parcel|delivery|shipment|tracking|redeliver)/i.test(text) || /(快递|包裹)/.test(text)) sc.add('package');
-  if (signs.has('pay_to_earn') && !sc.has('package') || /\b(job|position|hiring|recruit(er|ing)|remote work|work from home|part[- ]time|internship|salary|commission|tasks?)\b/i.test(text)) sc.add('job');
+  if (signs.has('pay_to_earn') && !['package', 'immigration', 'police', 'tax'].some((x) => sc.has(x)) || /\b(job|position|hiring|recruit(er|ing)|remote work|work from home|part[- ]time|internship|salary|commission|tasks?)\b/i.test(text)) sc.add('job');
   if (/\b(tuition|bursar|student account|balance due|semester (bill|fee)|enrollment hold|registration hold)\b/i.test(text) || /(学费)/.test(text)) sc.add('tuition');
   if (signs.has('credentials_request') || ['microsoft', 'google', 'duo', 'okta', 'apple'].some((i) => ids.has(i)) || /\b(log ?in|password|netid|account)\b/i.test(t)) sc.add('account');
   if (/\b(code|otp|passcode)\b/i.test(text) || /验证码/.test(text)) sc.add('code');
