@@ -29,8 +29,8 @@ export const SIGNS = {
     sources: [S.ftcCode, S.ftcPhishing],
   },
   authority_impersonation: {
-    title: 'Claims to be an official body',
-    explain: 'Claiming to be a government agency, police, an embassy or your university is not a warning sign by itself, but it is the most common disguise. Check it through a channel you find yourself.',
+    title: 'Claims to be an official organisation',
+    explain: 'Claiming to be a government agency, police, an embassy, your university, your bank or a well-known company is not a warning sign by itself, but it is the most common disguise. Check it through a channel you find yourself.',
     sources: [S.ic3Gov, S.ftcGov, S.ic3Students],
   },
   domain_mismatch: {
@@ -91,34 +91,37 @@ const NEG_BEFORE = /(never|no one|nobody|won['’]t|wouldn['’]t|shouldn['’]t
 // Each rule: sign, tier, re (global), optional neg (true = check NEG_BEFORE), optional after (reject if text after matches)
 export const RULES = [
   // ---- threats
-  { sign: 'threat', tier: 'strong', re: /\b(arrest(ed)?|warrant|deport(ed|ation)?|detain(ed)?|detention|prosecut(e|ed|ion)|jail|prison|criminal (charges?|case|investigation)|legal action|lawsuit|removal proceedings|extradit(e|ed|ion))\b/gi, neg: true },
-  { sign: 'threat', tier: 'strong', re: /\b(visa|SEVIS( record)?|status|I-20|green card|OPT|F-1)\b[^.!?\n]{0,30}\b(will be |has been |is being |be )?(terminat(ed|ion)|cancel(l)?(ed|ation)|revok(ed|ation)|invalid(ated)?|suspend(ed)?)\b/gi, neg: true },
+  { sign: 'threat', tier: 'strong', re: /\b(arrest(ed)?|warrant|deport(ed|ation)?|detain(ed)?|detention|prosecut(e|ed|ion)|jail|prison|criminal (charges?|case|investigation)|legal action|lawsuit|removal proceedings|extradit(e|ed|ion)|lien|visa review|garnish(ed|ment)?|seiz(e|ed|ure))\b/gi, neg: true },
+  { sign: 'threat', tier: 'strong', re: /\b(visa|SEVIS( record)?|status|I-20|green card|OPT|F-1|enrollment|enrolment|registration|admission|passport)\b[^.!?\n]{0,30}\b(will be |has been |is being |be )?(terminat(ed|ion)|cancel(l)?(ed|ation)|revok(ed|ation)|invalid(ated)?|suspend(ed)?)\b/gi, neg: true },
   { sign: 'threat', tier: 'moderate', re: /\b(account|card|access|NetID|email)\b[^.!?\n]{0,30}\b(will be |has been |is )?(suspend(ed)?|locked|disabled|deactivat(ed|ion)|clos(ed|ure)|terminat(ed)?)\b/gi, neg: true },
   { sign: 'threat', tier: 'moderate', re: /\b(penalt(y|ies)|fines?|late fee)\b[^.!?\n]{0,30}\$\s?\d/gi },
   { sign: 'threat', tier: 'moderate', re: /\b(report(ed)? (you )?to|notify|refer(red)? (you )?to)\b (the )?(immigration|ICE|USCIS|the police|police|authorities|law enforcement|FBI|IRS)\b/gi, neg: true },
-  { sign: 'threat', tier: 'strong', re: /(逮捕|通缉|拘留|遣返|冻结|涉嫌|洗钱|立案|刑事|坐牢|引渡)/g },
+  { sign: 'threat', tier: 'strong', re: /(逮捕|通缉|拘留|遣返|冻结|涉嫌|洗钱|立案|刑事|坐牢|引渡|注销|吊销|案件|卷宗|诈骗案)/g },
 
   // ---- urgency
   { sign: 'urgency', tier: 'weak', re: /\b(within (24|48|72|\d{1,2}) hours?|within \d+ (minutes|mins)|immediately|right away|right now|urgent(ly)?|act now|final (notice|warning|reminder)|last (chance|warning)|today only|expires? (today|tonight|soon|in \d+)|as soon as possible|ASAP|before (it'?s too late|midnight|end of (the )?day)|time[- ]sensitive)\b/gi },
-  { sign: 'urgency', tier: 'weak', re: /\b(pay|call|act|respond|reply|verify|confirm|send|update|speak (with|to)|contact|click|wire|transfer|deposit|buy|purchase|log ?in|sign ?in)\b[^.!?\n]{0,45}\b(now|today|tonight)\b|\b(failure to|if you do not|unless you)\b[^.!?\n]{0,30}\b(today|now|immediately|within)\b|\bin \d{1,2} (hours?|minutes)\b/gi },
+  { sign: 'urgency', tier: 'weak', re: /\b(pay|call|act|respond|reply|verify|confirm|send|update|speak (with|to)|contact|click|wire|transfer|deposit|buy|purchase|log ?in|sign ?in)\b[^.!?\n]{0,45}\b(now|today|tonight)\b|\b(failure to|if you do not|unless you)\b[^.!?\n]{0,30}\b(today|now|immediately|within)\b|\bin \d{1,2} (hours?|minutes)\b|\bwon['’]t last\b|\b(others|many people|lots of people) (are|is) interested\b|\b(a ton|lots|many) of (requests|interest|applicants)\b/gi },
   { sign: 'urgency', tier: 'weak', re: /(立即|立刻|马上|尽快|紧急|24小时内|今天之内|否则)/g },
 
   // ---- secrecy / isolation
   { sign: 'secrecy', tier: 'strong', re: /\b(do not|don['’]t|must not|cannot|can['’]t|not allowed to)\s+(tell|inform|discuss|contact|call|speak (to|with)|talk (to|with)|notify)\b[^.!?\n]{0,40}\b(anyone|anybody|family|friends?|school|university|DSO|advisors?|ISSS|police|lawyer|attorney|bank|parents?|roommates?)\b/gi },
-  { sign: 'secrecy', tier: 'strong', re: /\b(keep (this|it) (confidential|secret|private|between us)|strictly confidential|confidential (investigation|case|matter)|(stay|remain) on the (line|phone|call)|do not (hang up|disconnect|end the call)|don['’]t (hang up|disconnect))\b/gi },
-  { sign: 'secrecy', tier: 'strong', re: /(保密|不要告诉|不得(向|与)?[^。！？\n]{0,8}(透露|告诉|联系)|不要挂(断|电话)?|视频监控|保持视频|24小时[^。]{0,4}(视频|监控)|单独(在房间|一个人))/g },
+  { sign: 'secrecy', tier: 'strong', re: /\b(keep (this|it) (confidential|secret|private|between us)|between us|don['’]t mention (it|this)|do not mention (it|this)|strictly confidential|confidential (investigation|case|matter)|(stay|remain) on the (line|phone|call)|do not (hang up|disconnect|end the call)|don['’]t (hang up|disconnect))\b/gi },
+  { sign: 'secrecy', tier: 'strong', re: /(保密|不要告诉|别告诉|请勿[^。！？\n]{0,8}(透露|告诉)|不得(向|与)?[^。！？\n]{0,8}(透露|告诉|联系)|不要挂(断|电话)?|视频监控|保持视频|24小时[^。]{0,4}(视频|监控)|单独(在房间|一个人))/g },
 
   // ---- unusual payment
   { sign: 'unusual_payment', tier: 'strong', re: /\b(gift ?cards?|(apple|itunes|google play|steam|target|amazon|walmart|ebay|sephora|razer gold|vanilla)( gift)? cards?|prepaid (debit )?cards?|card numbers? and (the )?pin)\b/gi, neg: true },
   { sign: 'unusual_payment', tier: 'strong', re: /\b(bitcoin|BTC|USDT|tether|ethereum|crypto(currency|currencies)?|crypto wallet|wallet address|bitcoin ATM|crypto ATM|BTM)\b/gi, neg: true },
-  { sign: 'unusual_payment', tier: 'strong', re: /\b(wire (transfer|the money|the funds|it)|Western Union|MoneyGram|cash courier|courier (will|to) (collect|pick up)|(mail|send|ship) (the )?cash|cash in an envelope)\b/gi, neg: true },
+  { sign: 'unusual_payment', tier: 'strong', re: /\b(wire (transfer|the money|the funds|it)|Western Union|MoneyGram|cash courier|courier (will|to) (collect|pick up)|(mail|send|ship) (the )?cash|cash in an envelope|(pay|send it|payment) (by|via) wire|wire (it )?to)\b/gi, neg: true },
   { sign: 'unusual_payment', tier: 'moderate', re: /\b(Zelle|Venmo|Cash ?App|PayPal (friends|f&f))\b/gi, neg: true },
   { sign: 'unusual_payment', tier: 'strong', re: /(礼品卡|比特币|虚拟货币|加密货币|USDT|安全账户|保证金|保释金)/g },
 
   // ---- credentials / codes
-  { sign: 'credentials_request', tier: 'strong', re: /\b(send|reply( with)?|text|share|give|tell|read|provide|forward|confirm|enter|type|submit|update|verify)\b( me| us| back)?( the| your| that| this)?[^.!?\n]{0,30}\b(verification code|security code|one[- ]time (pass)?code|OTP|6[- ]digit code|code (we|I|that was) (just )?sent|login code|access code|passcode|password|PIN|SSN|social security( number)?|passport( number| details)?|visa number|I-94|A-?number|bank (account|login|details)|routing number|card (number|details)|CVV|credentials|NetID password|login details)\b/gi, neg: true },
-  { sign: 'credentials_request', tier: 'strong', re: /\b(sent|texted|forwarded) (you )?(a |the |my |your )?(verification |security |login |6[- ]digit |one[- ]time )?code\b[^\n]{0,80}\b(by mistake|accident(ally)?|wrong number|send it|read it|share it|tell me|send (it )?back|what (it|the code) (is|says))\b/gi },
-  { sign: 'credentials_request', tier: 'moderate', re: /\b(verify|confirm|validate|update|restore|re-?enter)\b (your )?(account|identity|login|payment (information|info|details|method)|billing (information|info|details)|password|card details)\b/gi, neg: true },
+  { sign: 'credentials_request', tier: 'strong', re: /\b(send|reply( with)?|text|share|give|tell|read|provide|forward|confirm|enter|type|submit|update|verify|upload|attach)\b( me| us| back)?( the| your| that| this)?[^.!?\n]{0,30}\b(verification code|security code|one[- ]time (pass)?code|OTP|6[- ]digit code|code (we|I|that was) (just )?sent|login code|access code|passcode|password|PIN|SSN|social security( number)?|passport( number| details| scan| photo| copy)?|visa (number|details)|I-94|I-20( details| information)?|SEVIS (ID|number|details)|A-?number|bank (account|login|details)|routing number|card (number|details)|CVV|credentials|NetID password|login details)\b/gi, neg: true },
+  { sign: 'credentials_request', tier: 'strong', re: /\b(send|share|give|read|tell|forward|text|provide)\b( me| us)?( this| the| that| your| that)? (code|passcode|OTP)\b(?! (is|expires|will))/gi, neg: true },
+  { sign: 'credentials_request', tier: 'strong', re: /\bread (it|the code|them|the numbers) (back|out|to me)\b|\b(approve|accept) (the |this |any )?(code|push|prompt|request|sign-?in)s? (we|I) (send|sent)\b|\bre-?register (your )?(multi-factor|MFA|2FA|two-factor|authenticator|Duo)( device| app)?\b/gi },
+  { sign: 'credentials_request', tier: 'strong', re: /\b(sent|texted|forwarded)\b[^.!?\n]{0,40}\bcode\b[^\n]{0,100}\b(by mistake|accident(ally)?|wrong number|send it|read it|share it|tell me|send (it )?back|what (it|the code) (is|says))\b/gi },
+  { sign: 'credentials_request', tier: 'moderate', re: /\b(verify|confirm|validate|update|restore|re-?enter)\b (your )?(account|identity|login|payment (information|info|details|method)|billing (information|info|details)|password|card details|(delivery |shipping |home )?address|apartment number|I-20|SEVIS)\b/gi, neg: true },
+  { sign: 'credentials_request', tier: 'moderate', re: /\b(update|correct|confirm) (it|this|the (details|address|information)) (here|below|at|via|using|through)\b|\b(sign|log) ?in to (keep|continue|avoid|retain|unlock|restore|review|confirm|verify)\b/gi, neg: true },
   { sign: 'credentials_request', tier: 'moderate', re: /\b(by )?(sign(ing)?|log(ging)?) ?in (below|here|now|at the link|using the link|via the link|through the link)\b/gi, neg: true },
   { sign: 'credentials_request', tier: 'moderate', re: /\b(log ?in|sign ?in|click|tap|visit|follow)\b[^.!?\n]{0,40}\b(to )?(verify|confirm|validate|restore|unlock|update|reactivate|re-?activate)\b[^.!?\n]{0,25}\b(your )?(account|identity|details|information|payment|address|status|mailbox|email)\b/gi, neg: true },
   { sign: 'credentials_request', tier: 'strong', re: /(验证码|密码|银行卡号|护照号|身份证号)/g, neg: true },
@@ -127,16 +130,18 @@ export const RULES = [
   { sign: 'pay_to_earn', tier: 'strong', re: /\b(redelivery|re-delivery|customs|clearance|processing|release|handling|shipping|activation|registration|training|unlock(ing)?|withdrawal|application|onboarding|equipment|starter kit)( fee| charge| deposit| payment)\b/gi, neg: true },
   { sign: 'pay_to_earn', tier: 'strong', re: /\b(pay|deposit|top up|recharge|send)\b[^.!?\n]{0,40}\b(to (unlock|withdraw|release|receive|claim|activate|continue|start|get paid)|before (you can )?(withdraw|start|receive|we (can )?(release|ship|deliver)))\b/gi, neg: true },
   { sign: 'pay_to_earn', tier: 'strong', re: /\b(earn|make)\b[^.!?\n]{0,15}\$\s?\d{2,4}(\s?-\s?\$?\d{2,4})?\s?(\/|per|a|each)\s?(day|hour|task|order)\b|\b(like|rate|review|optimi[sz]e) (videos|products|apps|hotels)\b[^.!?\n]{0,40}\b(commission|earn|paid)\b|\b(task|order) (bundle|set|combination)s?\b|\bcommission\b[^.!?\n]{0,30}\b(per|each) task\b/gi },
-  { sign: 'pay_to_earn', tier: 'strong', re: /\b(deposit|cash)\b (the |this |a |our )?(check|cheque|it)\b[^\n]{0,80}\b(send|return|wire|transfer|forward|pay)\b[^.!?\n]{0,40}\b(remaining|rest|difference|balance|back|excess|vendor)\b/gi },
+  { sign: 'pay_to_earn', tier: 'strong', re: /\b(deposit|cash)\b (the |this |a |our )?(check|cheque|it)\b[^\n]{0,80}\b(send|return|wire|transfer|forward|pay|buy|purchase)\b[^.!?\n]{0,40}\b(remaining|rest|difference|balance|back|excess|vendor|gift cards?|supplies)\b/gi },
+  { sign: 'pay_to_earn', tier: 'strong', re: /\b(send|pay|give|refund|return)( me)? (back )?the (extra|difference|excess|overpayment|rest)\b|\bmore than (your|the) (asking )?price\b/gi },
+  { sign: 'pay_to_earn', tier: 'moderate', re: /\b(pay|send|required|requires|payable|is needed)\b[^.!?\n]{0,40}\b(fee|charge)\b|\b(fee|charge)( of)? \$\s?\d[^.!?\n]{0,30}\b(required|to (release|unlock|schedule|continue|start|process))\b|\(fee \$\s?\d/gi, neg: true },
   { sign: 'pay_to_earn', tier: 'strong', re: /\b(deposit|invest(ment)?)\b[^.!?\n]{0,40}\b(withdraw|profits?|returns?|earnings)\b|\bguaranteed (returns?|profits?|income)\b/gi, neg: true },
-  { sign: 'pay_to_earn', tier: 'strong', re: /\b(deposit|payment|pay)\b[^.!?\n]{0,50}\bbefore (you |we )?(can )?(see|view|tour|visit|meet)\b|\bto (hold|reserve|secure) the (apartment|room|unit|place|lease)\b/gi, neg: true },
-  { sign: 'pay_to_earn', tier: 'strong', re: /(刷单|返利|佣金|手续费|解冻费|激活费)/g },
+  { sign: 'pay_to_earn', tier: 'strong', re: /\b(deposit|payment|pay)\b[^.!?\n]{0,50}\bbefore (you |we |the )?(can )?(see|view|tour|visit|meet|showing|viewing)\b|\bto (hold|reserve|secure) (it|the (apartment|room|unit|place|lease))\b/gi, neg: true },
+  { sign: 'pay_to_earn', tier: 'strong', re: /(刷单|返利|佣金|手续费|解冻费|激活费|先付|撤销)/g },
 
   // ---- move to another channel / call this number
   { sign: 'unsolicited_contact_switch', tier: 'moderate', re: /\b(WhatsApp|Telegram|Signal app|WeChat|Line app|Kakao(Talk)?)\b/gi, neg: true },
   { sign: 'unsolicited_contact_switch', tier: 'moderate', re: /\b(call|text|contact|reach|message|dial|ring)\b( us| me| our (agent|officer|department|team)| the (officer|agent|department))?( back)?( immediately| now| today)?( at| on)?:?\s*(\+?1?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}|\+\d[\d\s.-]{7,})/gi, neg: true, after: /^[^.!?\n]{0,10}$/ },
   { sign: 'unsolicited_contact_switch', tier: 'moderate', re: /\b(add me|add (our|my) (agent|manager|recruiter|mentor)|text me (on|at)|(my|our) personal (number|email))\b/gi },
-  { sign: 'unsolicited_contact_switch', tier: 'moderate', re: /(加微信|加我|联系(以下)?(号码|电话)|拨打[^。]{0,6}\d)/g },
+  { sign: 'unsolicited_contact_switch', tier: 'moderate', re: /(加微信|加我|回拨|回电|联系(以下)?(号码|电话)|拨打[^。]{0,6}\d)/g },
 
   // ---- generic greeting
   { sign: 'generic_greeting', tier: 'weak', re: /^\s*(dear|hello|hi|attention)[,:]?\s+(valued |dear )?(customer|user|client|member|account ?holder|student|sir\/madam|sir or madam|beneficiary|applicant)s?\b/gim },

@@ -214,8 +214,9 @@ function lookalikeChecks(a, add) {
 
   // 2. Typo-squats: paypa1, rnicrosoft, amazom ...
   if (!hasNonAscii(labelUni)) {
-    for (const variant of [labelAscii, ...asciiHomoglyphs(labelAscii)]) {
-      const hit = [...BRAND_LABELS.entries()].find(([k]) => k.length >= 5 && (variant === k || dl1(variant, k)) && labelAscii !== k);
+    const pieces = [labelAscii, ...labelAscii.split('-').filter((x) => x.length >= 4)];
+    for (const variant of pieces.flatMap((p) => [p, ...asciiHomoglyphs(p)])) {
+      const hit = [...BRAND_LABELS.entries()].find(([k]) => k.length >= 5 && (variant === k || dl1(variant, k)) && !pieces.includes(k));
       if (hit) {
         add('lookalike_domain', 'strong', `“${reg}” looks like “${hit[0]}” (${hit[1].name}) with a letter swapped or changed. It is not ${hit[1].name}'s domain.`);
         return;

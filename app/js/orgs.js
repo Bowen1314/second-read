@@ -21,9 +21,9 @@ export const ORGS = [
   // --- foreign government (must use a government suffix such as gov.cn) ---
   { id: 'cnpolice', name: 'Chinese police / embassy', kind: 'foreign-gov', re: /Chinese (police|embassy|consulate)|Embassy of China|公安|警察|大使馆|领事馆|检察院|法院/i, domains: ['china-embassy.gov.cn', 'mps.gov.cn', 'mfa.gov.cn'], tokens: [] },
   // --- universities (generic) ---
-  { id: 'school', name: 'your university', kind: 'edu', re: /\b(international (student|scholar)s? (office|services|center)|ISSS|OIA|Office of International( (Affairs|Programs|Students))?|Global Services|Bursar|Registrar|Student Accounts|Financial Aid Office|(your|our|the) (university|college|school)|University IT|IT Service Desk|NetID|student portal)\b|学校|大学/i, domains: [], tokens: [] },
+  { id: 'school', name: 'your university', kind: 'edu', re: /\b(international (student|scholar)s? (office|services|center)|ISSS|OIA|Office of International( (Affairs|Programs|Students))?|Global Services|Bursar|Registrar|Student Accounts|Financial Aid Office|(your|our|the) (university|college|school)|University IT|IT (Service|Support|Help) (Desk|Team)|IT Department|NetID|student portal|Professor|Dean of Students)\b|学校|大学/i, domains: [], tokens: [] },
   // --- couriers ---
-  { id: 'usps', name: 'USPS', kind: 'company', re: /\bUSPS\b|Postal Service|US Post\b/i, domains: ['usps.com', 'usps.gov'], tokens: ['usps'] },
+  { id: 'usps', name: 'USPS', kind: 'gov', re: /\bUSPS\b|Postal Service|US Post\b/i, domains: ['usps.com', 'usps.gov'], tokens: ['usps'] },
   { id: 'ups', name: 'UPS', kind: 'company', re: /\bUPS\b/, domains: ['ups.com'], tokens: ['ups'] },
   { id: 'fedex', name: 'FedEx', kind: 'company', re: /\bFed ?Ex\b/i, domains: ['fedex.com'], tokens: ['fedex'] },
   { id: 'dhl', name: 'DHL', kind: 'company', re: /\bDHL\b/i, domains: ['dhl.com'], tokens: ['dhl'] },
@@ -39,6 +39,7 @@ export const ORGS = [
   { id: 'cashapp', name: 'Cash App', kind: 'company', re: /\bCash ?App\b/i, domains: ['cash.app', 'square.com', 'squareup.com'], tokens: ['cashapp'] },
   { id: 'coinbase', name: 'Coinbase', kind: 'company', re: /\bCoinbase\b/i, domains: ['coinbase.com'], tokens: ['coinbase'] },
   // --- banks ---
+  { id: 'bankgeneric', name: 'your bank', kind: 'company', re: /\b(fraud (department|team|prevention)|your bank|bank['’]s (fraud|security) (team|department))\b/i, domains: [], tokens: [] },
   { id: 'chase', name: 'Chase', kind: 'company', re: /\bChase\b|JPMorgan/, domains: ['chase.com', 'jpmorgan.com', 'jpmorganchase.com'], tokens: ['chase', 'jpmorgan'] },
   { id: 'bofa', name: 'Bank of America', kind: 'company', re: /Bank of America|\bBofA\b/i, domains: ['bankofamerica.com', 'bofa.com'], tokens: ['bankofamerica', 'bofa'] },
   { id: 'wells', name: 'Wells Fargo', kind: 'company', re: /Wells ?Fargo/i, domains: ['wellsfargo.com', 'wf.com'], tokens: ['wellsfargo'] },

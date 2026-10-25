@@ -113,7 +113,7 @@ export function analyze(input) {
     mentioned.push({ org, claim, index: inText ? inText.index : -1, match: inText ? inText[0] : display });
   }
   const authority = mentioned.filter((m) => m.org.kind !== 'company');
-  for (const m of authority) {
+  for (const m of mentioned.filter((x) => x.org.kind !== 'company' || x.claim)) {
     add('authority_impersonation', 'context', m.index >= 0
       ? { kind: 'text', text: m.match, start: m.index, end: m.index + m.match.length, tier: 'context', note: `Claims to be or mentions ${m.org.name}` }
       : { kind: 'sender', text: `The sender name says “${display}”`, tier: 'context' });
