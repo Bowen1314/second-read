@@ -1,0 +1,11 @@
+{
+  "name": "Second Read",
+  "short_name": "Second Read",
+  "description": "A private, on-device second opinion on a suspicious message.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f5f2",
+  "theme_color": "#24527a",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

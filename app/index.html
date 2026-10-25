@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; form-action 'none'; base-uri 'none'">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Second Read: a private, on-device second opinion on a suspicious text, email or chat message, before you click, pay or reply.">
+<title>Second Read</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#check">Skip to the message box</a>
+<header class="top">
+  <div class="wrap top-inner">
+    <div class="brand">
+      <img src="icon.svg" alt="" width="36" height="36">
+      <div>
+        <p class="brand-name">Second Read</p>
+        <p class="brand-tag">A private second opinion on a suspicious message, before you click, pay or reply.</p>
+      </div>
+    </div>
+    <a class="privacy-pill" href="#privacy"><span class="dot" aria-hidden="true"></span>Runs only on this device</a>
+  </div>
+</header>
+
+<main class="wrap layout">
+  <section class="panel input-panel" aria-labelledby="check-h">
+    <h1 id="check-h">Got a message that is pressuring you?</h1>
+    <p class="lead">Paste it here. Second Read points out the warning signs, explains each one, takes apart any links without opening them, and suggests a safe next step. It never says a message is “safe”.</p>
+    <div id="check" class="form" role="group" aria-label="Message to check">
+      <label for="msg">Message <span class="hint">text, email or chat, as it arrived</span></label>
+      <textarea id="msg" rows="9" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" placeholder="Paste the message here…"></textarea>
+      <div class="row2">
+        <div>
+          <label for="sender">Sender <span class="hint">optional: number, email or name</span></label>
+          <input id="sender" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" data-gramm="false" placeholder="e.g. (202) 555-0147 or office@example.com">
+        </div>
+        <div>
+          <label for="school">Your school's email domain <span class="hint">optional</span></label>
+          <input id="school" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="e.g. rutgers.edu">
+        </div>
+      </div>
+      <label for="links">Links <span class="hint">optional: paste a link here instead of tapping it</span></label>
+      <textarea id="links" rows="2" spellcheck="false" autocomplete="off" autocapitalize="off" data-gramm="false" placeholder="One per line"></textarea>
+      <div class="actions">
+        <button id="go" type="button" class="primary">Check message</button>
+        <button id="clear" type="button" class="secondary">Clear</button>
+        <label class="sr-only" for="sample">Try an example</label>
+        <select id="sample">
+          <option value="">Try a made-up example…</option>
+        </select>
+      </div>
+      <p class="fine" id="privacy-note">Nothing you paste is saved or sent anywhere. Leaving or closing this page clears it. <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd> also checks.</p>
+      <p class="error" id="input-error" role="alert" hidden></p>
+    </div>
+  </section>
+
+  <section class="results" id="results" aria-live="polite" aria-labelledby="results-h">
+    <h2 id="results-h" class="sr-only">Results</h2>
+    <div id="placeholder" class="panel howto">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li><strong>Paste</strong> the message, and the sender or link if you have them.</li>
+        <li><strong>See</strong> each warning sign highlighted in the text, with a plain explanation and the public guidance it comes from.</li>
+        <li><strong>Check</strong> what each link really points to. Second Read reads the address; it never opens it.</li>
+        <li><strong>Act</strong> on a safe next step: contact the organisation through a channel you look up yourself.</li>
+      </ol>
+      <p class="fine">Built for international students in the US, who are often targeted by fake immigration, police, tax and job messages. It is a checking aid, not a guarantee, and not an emergency service.</p>
+    </div>
+    <div id="out" hidden></div>
+  </section>
+</main>
+
+<section class="wrap info" id="privacy" aria-labelledby="privacy-h">
+  <div class="panel">
+    <h2 id="privacy-h">How you can tell nothing leaves your device</h2>
+    <ul class="checks">
+      <li><strong>The page is not allowed to send data.</strong> Its Content Security Policy says <code>connect-src 'none'</code> and <code>form-action 'none'</code>, so the browser itself blocks any attempt to send what you paste. You can see the policy in the page source.</li>
+      <li><strong>No storage.</strong> No cookies, no local storage, no history of what you checked. Closing or leaving the page wipes the fields.</li>
+      <li><strong>No AI service, no lookups.</strong> The checks are fixed, readable rules that run in this tab. Links are taken apart as text and never opened.</li>
+      <li><strong>Works offline.</strong> After your first visit, you can turn off Wi-Fi and it still works. <span id="offline-status"></span></li>
+      <li><strong>Spell-check is off</strong> in the boxes, because some browsers' enhanced spell-check sends typed text to an online service.</li>
+      <li><strong>Live count:</strong> <span id="net-count">network requests made by this page since it loaded: 0 (after loading its own files)</span></li>
+    </ul>
+    <p class="fine">Our automated tests paste a marker string, run a check, and confirm the page made no network request at all, and that an attempt to send data from the page is blocked by the browser.</p>
+  </div>
+  <div class="panel">
+    <h2>What Second Read can and cannot do</h2>
+    <ul class="limits">
+      <li>It knows a fixed set of rules based on public FTC, FBI and university warnings. New or unusual scams can slip past it, and a message with no warning signs can still be a scam.</li>
+      <li>It cannot see images, QR codes, voice calls, attachments or what a link really opens. It cannot confirm who really sent a message: senders can be faked, and real accounts can be hacked.</li>
+      <li>It understands English best, with a small set of Chinese phrases. It can be fooled by messages that quote scam wording, such as a friend warning you about scams.</li>
+      <li>On our synthetic test messages it missed some scams and raised some false alarms. The numbers are in the project README.</li>
+      <li>If you are in danger right now, call 911. Second Read is a prototype checking aid, not an emergency service and not a guarantee.</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h2>Credits</h2>
+    <ul class="credits">
+      <li>Domain logic uses the <a href="https://publicsuffix.org/" rel="noopener noreferrer">Public Suffix List</a> (Mozilla Public License 2.0), version <span id="psl-version"></span>.</li>
+      <li>Lookalike characters come from Unicode <a href="https://www.unicode.org/reports/tr39/" rel="noopener noreferrer">UTS #39 confusables</a> (Unicode License v3), version <span id="conf-version"></span>.</li>
+      <li>Warning signs and advice are paraphrased from public guidance by the FTC, FBI IC3, USCIS, IRS, DHS SEVP and university international offices. Each sign links to its source.</li>
+      <li>Built with an AI coding assistant (Claude); design decisions, testing and write-up reviewed by the author. Source code: <a href="https://github.com/Bowen1314/second-read" rel="noopener noreferrer">github.com/Bowen1314/second-read</a>.</li>
+    </ul>
+  </div>
+</section>
+<footer class="wrap foot"><p>Second Read — built during SafeSpace Hacks, October–November 2026. All examples are synthetic.</p></footer>
+<div id="demo-caption" aria-hidden="true"></div>
+</body>
+</html>
