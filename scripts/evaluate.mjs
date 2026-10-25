@@ -21,9 +21,13 @@ for (const r of rows) {
   const caught = exp.filter((s) => got.has(s));
   const missed = exp.filter((s) => !got.has(s));
   for (const s of exp) {
-    signStats[s] ??= { expected: 0, caught: 0 };
+    signStats[s] ??= { expected: 0, caught: 0, scamExpected: 0, scamCaught: 0 };
     signStats[s].expected++;
     if (got.has(s)) signStats[s].caught++;
+    if (r.label === 'scam') {
+      signStats[s].scamExpected++;
+      if (got.has(s)) signStats[s].scamCaught++;
+    }
   }
   per.push({ id: r.id, label: r.label, difficulty: r.difficulty || '', level: res.level, flagged: res.level >= 2, caught, missed, emitted: [...got], points: res.points });
   if (verbose) console.log(r.id, r.label, 'L' + res.level, res.points, [...got].join(','), missed.length ? 'MISSED:' + missed.join(',') : '');
@@ -40,6 +44,7 @@ const summary = {
   legit: { n: legit.length, flagged: legit.filter((p) => p.flagged).length, levels: dist(legit) },
   signs: signStats,
   signsTotal: { expected: Object.values(signStats).reduce((a, s) => a + s.expected, 0), caught: Object.values(signStats).reduce((a, s) => a + s.caught, 0) },
+  signsScam: { expected: Object.values(signStats).reduce((a, s) => a + s.scamExpected, 0), caught: Object.values(signStats).reduce((a, s) => a + s.scamCaught, 0) },
   missedScams: scams.filter((p) => !p.flagged).map((p) => p.id),
   falseAlarms: legit.filter((p) => p.flagged).map((p) => p.id),
 };
@@ -57,11 +62,11 @@ lines.push('|---|---|---|' + VERDICTS.map(() => '---').join('|') + '|');
 lines.push(`| Scam | ${summary.scam.n} | ${summary.scam.flagged} (${pct(summary.scam.flagged, summary.scam.n)}) | ${summary.scam.levels.join(' | ')} |`);
 lines.push(`| Legitimate | ${summary.legit.n} | ${summary.legit.flagged} (${pct(summary.legit.flagged, summary.legit.n)}) | ${summary.legit.levels.join(' | ')} |`);
 lines.push('');
-lines.push(`Warning signs a human labeller marked as present: ${summary.signsTotal.expected}; detected: ${summary.signsTotal.caught} (${pct(summary.signsTotal.caught, summary.signsTotal.expected)}).`);
+lines.push(`Warning signs the labeller marked in scam messages: ${summary.signsScam.expected}; detected: ${summary.signsScam.caught} (${pct(summary.signsScam.caught, summary.signsScam.expected)}). Counting legitimate messages too: ${summary.signsTotal.caught} of ${summary.signsTotal.expected} (${pct(summary.signsTotal.caught, summary.signsTotal.expected)}).`);
 lines.push('');
-lines.push('| Sign | Labelled present | Detected |');
-lines.push('|---|---|---|');
-for (const [id, s] of Object.entries(signStats).sort((a, b) => b[1].expected - a[1].expected)) lines.push(`| ${id} | ${s.expected} | ${s.caught} (${pct(s.caught, s.expected)}) |`);
+lines.push('| Sign | Marked in scam messages | Detected there | Marked in all messages | Detected |');
+lines.push('|---|---|---|---|---|');
+for (const [id, s] of Object.entries(signStats).sort((a, b) => b[1].expected - a[1].expected)) lines.push(`| ${id} | ${s.scamExpected} | ${s.scamCaught} (${pct(s.scamCaught, s.scamExpected)}) | ${s.expected} | ${s.caught} (${pct(s.caught, s.expected)}) |`);
 lines.push('');
 lines.push(`Scam messages not flagged: ${summary.missedScams.join(', ') || 'none'}`);
 lines.push('');
@@ -74,7 +79,7 @@ lines.push('|---|---|---|---|---|---|');
 for (const p of per) lines.push(`| ${p.id} | ${p.label} | ${p.difficulty} | ${VERDICTS[p.level].label} | ${p.missed.join(', ')} | ${p.emitted.join(', ')} |`);
 const md = lines.join('\n') + '\n';
 
-console.log(`scam flagged ${summary.scam.flagged}/${summary.scam.n} levels ${summary.scam.levels} | legit flagged ${summary.legit.flagged}/${summary.legit.n} levels ${summary.legit.levels} | signs ${summary.signsTotal.caught}/${summary.signsTotal.expected}`);
+console.log(`scam flagged ${summary.scam.flagged}/${summary.scam.n} levels ${summary.scam.levels} | legit flagged ${summary.legit.flagged}/${summary.legit.n} levels ${summary.legit.levels} | scam signs ${summary.signsScam.caught}/${summary.signsScam.expected} | all signs ${summary.signsTotal.caught}/${summary.signsTotal.expected}`);
 console.log('missed scams:', summary.missedScams.join(' ') || '-', '| false alarms:', summary.falseAlarms.join(' ') || '-');
 if (out) {
   writeFileSync(out + '.md', md);
