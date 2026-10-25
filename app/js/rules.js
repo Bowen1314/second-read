@@ -86,17 +86,17 @@ export const SIGNS = {
 };
 
 // Words that, shortly BEFORE a match, flip its meaning ("never share your code").
-const NEG_BEFORE = /(never|no one|nobody|won['’]t|wouldn['’]t|shouldn['’]t|can['’]t|don['’]t|doesn['’]t|(will|would|should|must|do|does|is|are) not|not (ask|share|send|give)|绝不|不会|不要|切勿)[^.!?\n]{0,40}$/i;
+const NEG_BEFORE = /(never|no one|nobody|won['’]t|wouldn['’]t|shouldn['’]t|can['’]t|don['’]t|doesn['’]t|(will|would|should|must|do|does|is|are) not|not (ask|share|send|give)|绝不|不会|不要|切勿)[^.!?\n]{0,60}$/i;
 
 // Each rule: sign, tier, re (global), optional neg (true = check NEG_BEFORE), optional after (reject if text after matches)
 export const RULES = [
   // ---- threats
   { sign: 'threat', tier: 'strong', re: /\b(arrest(ed)?|warrant|deport(ed|ation)?|detain(ed)?|detention|prosecut(e|ed|ion)|jail|prison|criminal (charges?|case|investigation)|legal action|lawsuit|removal proceedings|extradit(e|ed|ion)|lien|visa review|garnish(ed|ment)?|seiz(e|ed|ure))\b/gi, neg: true },
-  { sign: 'threat', tier: 'strong', re: /\b(visa|SEVIS( record)?|status|I-20|green card|OPT|F-1|enrollment|enrolment|registration|admission|passport)\b[^.!?\n]{0,30}\b(will be |has been |is being |be )?(terminat(ed|ion)|cancel(l)?(ed|ation)|revok(ed|ation)|invalid(ated)?|suspend(ed)?)\b/gi, neg: true },
+  { sign: 'threat', tier: 'strong', re: /\b(visa|SEVIS( record)?|status|I-20|green card|OPT|F-1|enrollment|enrolment|registration|admission|passport|(driver['’]?s )?licen[cs]e|vehicle registration)\b[^.!?\n]{0,30}\b(will be |has been |is being |be )?(terminat(ed|ion)|cancel(l)?(ed|ation)|revok(ed|ation)|invalid(ated)?|suspend(ed)?)\b/gi, neg: true },
   { sign: 'threat', tier: 'moderate', re: /\b(account|card|access|NetID|email)\b[^.!?\n]{0,30}\b(will be |has been |is )?(suspend(ed)?|locked|disabled|deactivat(ed|ion)|clos(ed|ure)|terminat(ed)?)\b/gi, neg: true },
   { sign: 'threat', tier: 'moderate', re: /\b(penalt(y|ies)|fines?|late fee)\b[^.!?\n]{0,30}\$\s?\d/gi },
   { sign: 'threat', tier: 'moderate', re: /\b(report(ed)? (you )?to|notify|refer(red)? (you )?to)\b (the )?(immigration|ICE|USCIS|the police|police|authorities|law enforcement|FBI|IRS)\b/gi, neg: true },
-  { sign: 'threat', tier: 'strong', re: /(逮捕|通缉|拘留|遣返|冻结|涉嫌|洗钱|立案|刑事|坐牢|引渡|注销|吊销|案件|卷宗|诈骗案)/g },
+  { sign: 'threat', tier: 'strong', re: /(逮捕|通缉|拘留|遣返|冻结|涉嫌|洗钱|立案|刑事|坐牢|引渡|注销|吊销|案件|卷宗|诈骗案|扣留|影响[^。]{0,6}信用)/g },
 
   // ---- urgency
   { sign: 'urgency', tier: 'weak', re: /\b(within (24|48|72|\d{1,2}) hours?|within \d+ (minutes|mins)|immediately|right away|right now|urgent(ly)?|act now|final (notice|warning|reminder)|last (chance|warning)|today only|expires? (today|tonight|soon|in \d+)|as soon as possible|ASAP|before (it'?s too late|midnight|end of (the )?day)|time[- ]sensitive)\b/gi },
@@ -118,7 +118,7 @@ export const RULES = [
   // ---- credentials / codes
   { sign: 'credentials_request', tier: 'strong', re: /\b(send|reply( with)?|text|share|give|tell|read|provide|forward|confirm|enter|type|submit|update|verify|upload|attach)\b( me| us| back)?( the| your| that| this)?[^.!?\n]{0,30}\b(verification code|security code|one[- ]time (pass)?code|OTP|6[- ]digit code|code (we|I|that was) (just )?sent|login code|access code|passcode|password|PIN|SSN|social security( number)?|passport( number| details| scan| photo| copy)?|visa (number|details)|I-94|I-20( details| information)?|SEVIS (ID|number|details)|A-?number|bank (account|login|details)|routing number|card (number|details)|CVV|credentials|NetID password|login details)\b/gi, neg: true },
   { sign: 'credentials_request', tier: 'strong', re: /\b(send|share|give|read|tell|forward|text|provide)\b( me| us)?( this| the| that| your| that)? (code|passcode|OTP)\b(?! (is|expires|will))/gi, neg: true },
-  { sign: 'credentials_request', tier: 'strong', re: /\bread (it|the code|them|the numbers) (back|out|to me)\b|\b(approve|accept) (the |this |any )?(code|push|prompt|request|sign-?in)s? (we|I) (send|sent)\b|\bre-?register (your )?(multi-factor|MFA|2FA|two-factor|authenticator|Duo)( device| app)?\b/gi },
+  { sign: 'credentials_request', tier: 'strong', re: /\bread (it|the code|them|the numbers) (back|out|to me)\b|\b(approve|accept) (the |this |any )?(code|push|prompt|request|sign-?in)s? (we|I) (send|sent)\b|\bre-?(register|enroll|enrol) (your |their )?(multi-factor |MFA |2FA |two-factor |authenticator |Duo )?(device|app|phone|account)( in Duo)?\b/gi },
   { sign: 'credentials_request', tier: 'strong', re: /\b(sent|texted|forwarded)\b[^.!?\n]{0,40}\bcode\b[^\n]{0,100}\b(by mistake|accident(ally)?|wrong number|send it|read it|share it|tell me|send (it )?back|what (it|the code) (is|says))\b/gi },
   { sign: 'credentials_request', tier: 'moderate', re: /\b(verify|confirm|validate|update|restore|re-?enter)\b (your )?(account|identity|login|payment (information|info|details|method)|billing (information|info|details)|password|card details|(delivery |shipping |home )?address|apartment number|I-20|SEVIS)\b/gi, neg: true },
   { sign: 'credentials_request', tier: 'moderate', re: /\b(update|correct|confirm) (it|this|the (details|address|information)) (here|below|at|via|using|through)\b|\b(sign|log) ?in to (keep|continue|avoid|retain|unlock|restore|review|confirm|verify)\b/gi, neg: true },
@@ -127,21 +127,22 @@ export const RULES = [
   { sign: 'credentials_request', tier: 'strong', re: /(验证码|密码|银行卡号|护照号|身份证号)/g, neg: true },
 
   // ---- pay to earn / advance fee
-  { sign: 'pay_to_earn', tier: 'strong', re: /\b(redelivery|re-delivery|customs|clearance|processing|release|handling|shipping|activation|registration|training|unlock(ing)?|withdrawal|application|onboarding|equipment|starter kit)( fee| charge| deposit| payment)\b/gi, neg: true },
+  { sign: 'pay_to_earn', tier: 'strong', re: /\b(redelivery|re-delivery|customs|clearance|processing|release|handling|shipping|activation|registration|training|unlock(ing)?|withdrawal|application|onboarding|equipment|starter kit|holding|reservation|background[- ]check|verification|reinstatement|correction)( fee| charge| deposit| payment)\b/gi, neg: true },
   { sign: 'pay_to_earn', tier: 'strong', re: /\b(pay|deposit|top up|recharge|send)\b[^.!?\n]{0,40}\b(to (unlock|withdraw|release|receive|claim|activate|continue|start|get paid)|before (you can )?(withdraw|start|receive|we (can )?(release|ship|deliver)))\b/gi, neg: true },
-  { sign: 'pay_to_earn', tier: 'strong', re: /\b(earn|make)\b[^.!?\n]{0,15}\$\s?\d{2,4}(\s?-\s?\$?\d{2,4})?\s?(\/|per|a|each)\s?(day|hour|task|order)\b|\b(like|rate|review|optimi[sz]e) (videos|products|apps|hotels)\b[^.!?\n]{0,40}\b(commission|earn|paid)\b|\b(task|order) (bundle|set|combination)s?\b|\bcommission\b[^.!?\n]{0,30}\b(per|each) task\b/gi },
+  { sign: 'pay_to_earn', tier: 'strong', re: /\b(earn|make)\b[^.!?\n]{0,15}\$\s?\d{2,4}(\s?(-|to)\s?\$?\d{2,4})?\s?((\/|per|a|each)\s?(day|hour|task|order|week)|daily|weekly)\b|\b(like|rate|review|optimi[sz]e) (videos|products|apps|hotels)\b[^.!?\n]{0,40}\b(commission|earn|paid)\b|\b(task|order) (bundle|set|combination)s?\b|\bcommission\b[^.!?\n]{0,30}\b(per|each) task\b/gi },
   { sign: 'pay_to_earn', tier: 'strong', re: /\b(deposit|cash)\b (the |this |a |our )?(check|cheque|it)\b[^\n]{0,80}\b(send|return|wire|transfer|forward|pay|buy|purchase)\b[^.!?\n]{0,40}\b(remaining|rest|difference|balance|back|excess|vendor|gift cards?|supplies)\b/gi },
   { sign: 'pay_to_earn', tier: 'strong', re: /\b(send|pay|give|refund|return)( me)? (back )?the (extra|difference|excess|overpayment|rest)\b|\bmore than (your|the) (asking )?price\b/gi },
   { sign: 'pay_to_earn', tier: 'moderate', re: /\b(pay|send|required|requires|payable|is needed)\b[^.!?\n]{0,40}\b(fee|charge)\b|\b(fee|charge)( of)? \$\s?\d[^.!?\n]{0,30}\b(required|to (release|unlock|schedule|continue|start|process))\b|\(fee \$\s?\d/gi, neg: true },
   { sign: 'pay_to_earn', tier: 'strong', re: /\b(deposit|invest(ment)?)\b[^.!?\n]{0,40}\b(withdraw|profits?|returns?|earnings)\b|\bguaranteed (returns?|profits?|income)\b/gi, neg: true },
   { sign: 'pay_to_earn', tier: 'strong', re: /\b(deposit|payment|pay)\b[^.!?\n]{0,50}\bbefore (you |we |the )?(can )?(see|view|tour|visit|meet|showing|viewing)\b|\bto (hold|reserve|secure) (it|the (apartment|room|unit|place|lease))\b/gi, neg: true },
+  { sign: 'pay_to_earn', tier: 'moderate', re: /\b(can['’]?t|cannot|unable to) show (you )?(it|the (apartment|room|unit|place|house))\b/gi },
   { sign: 'pay_to_earn', tier: 'strong', re: /(刷单|返利|佣金|手续费|解冻费|激活费|先付|撤销)/g },
 
   // ---- move to another channel / call this number
   { sign: 'unsolicited_contact_switch', tier: 'moderate', re: /\b(WhatsApp|Telegram|Signal app|WeChat|Line app|Kakao(Talk)?)\b/gi, neg: true },
   { sign: 'unsolicited_contact_switch', tier: 'moderate', re: /\b(call|text|contact|reach|message|dial|ring)\b( us| me| our (agent|officer|department|team)| the (officer|agent|department))?( back)?( immediately| now| today)?( at| on)?:?\s*(\+?1?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}|\+\d[\d\s.-]{7,})/gi, neg: true, after: /^[^.!?\n]{0,10}$/ },
   { sign: 'unsolicited_contact_switch', tier: 'moderate', re: /\b(add me|add (our|my) (agent|manager|recruiter|mentor)|text me (on|at)|(my|our) personal (number|email))\b/gi },
-  { sign: 'unsolicited_contact_switch', tier: 'moderate', re: /(加微信|加我|回拨|回电|联系(以下)?(号码|电话)|拨打[^。]{0,6}\d)/g },
+  { sign: 'unsolicited_contact_switch', tier: 'moderate', re: /(加微信|加我|回拨|回电|转接|回复\s?\d\s?(转|联系)|联系(以下)?(号码|电话)|拨打[^。]{0,6}\d)/g },
 
   // ---- generic greeting
   { sign: 'generic_greeting', tier: 'weak', re: /^\s*(dear|hello|hi|attention)[,:]?\s+(valued |dear )?(customer|user|client|member|account ?holder|student|sir\/madam|sir or madam|beneficiary|applicant)s?\b/gim },
@@ -158,7 +159,7 @@ export function runTextRules(text) {
     for (const m of text.matchAll(rule.re)) {
       const start = m.index, end = m.index + m[0].length;
       if (rule.neg) {
-        const before = text.slice(Math.max(0, start - 60), start);
+        const before = text.slice(Math.max(0, start - 80), start);
         const sentenceStart = Math.max(before.lastIndexOf('.'), before.lastIndexOf('!'), before.lastIndexOf('?'), before.lastIndexOf('\n'), before.lastIndexOf('。'));
         if (NEG_BEFORE.test(before.slice(sentenceStart + 1))) continue;
       }

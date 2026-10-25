@@ -66,7 +66,13 @@ export function analyze(input) {
     const key = l.raw.toLowerCase();
     if (seen.has(key)) { links.find((x) => x.raw.toLowerCase() === key).spans.push([l.start, l.end]); continue; }
     seen.add(key);
-    links.push({ ...analyzeUrl(l.raw), spans: [[l.start, l.end]], source: 'message' });
+    const an = analyzeUrl(l.raw);
+    if (l.merchantName) {
+      an.merchantName = true;
+      an.flags = an.flags.filter((f) => f.sign === 'info');
+      an.flags.push({ sign: 'info', tier: 'info', text: 'Written in capitals with no path, this looks like a shop name in a receipt or alert rather than a link, so it is not used for the sender check.' });
+    }
+    links.push({ ...an, spans: [[l.start, l.end]], source: 'message' });
   }
   for (const raw of extraLinks) {
     if (seen.has(raw.toLowerCase())) continue;
@@ -123,12 +129,14 @@ export function analyze(input) {
   const domains = []; // { reg, info, where }
   if (sender.kind === 'email') domains.push({ reg: sender.registrable, info: sender.info, where: `the sender address ${sender.address}` });
   for (const l of links) {
-    if (l.error || !l.registrable || SHORTENERS.has(l.registrable)) continue;
+    if (l.error || !l.registrable || SHORTENERS.has(l.registrable) || l.merchantName) continue;
     domains.push({ reg: l.registrable, info: l.info, where: `the link ${l.registrableUnicode || l.registrable}` });
   }
   const uniqueDomains = [...new Map(domains.map((d) => [d.reg, d])).values()];
-  const anyGov = uniqueDomains.some((d) => isGovSuffix(d.info) || GOV_VENDORS.has(d.reg));
-  const anyEdu = uniqueDomains.some((d) => isEduSuffix(d.info) || EDU_VENDORS.has(d.reg) || (school && isOfficial(school, d.reg)));
+  // a .gov/.edu domain spelled with lookalike characters does not count as institutional
+  const clean = (d) => !d.reg.includes('xn--');
+  const anyGov = uniqueDomains.some((d) => (isGovSuffix(d.info) && clean(d)) || GOV_VENDORS.has(d.reg));
+  const anyEdu = uniqueDomains.some((d) => (isEduSuffix(d.info) && clean(d)) || EDU_VENDORS.has(d.reg) || (school && isOfficial(school, d.reg)));
   const anyInstitutional = anyGov || anyEdu;
   let verifiedMatch = false;
 
@@ -146,8 +154,9 @@ export function analyze(input) {
       add('domain_mismatch', 'strong', { kind: 'domain', text: `It mentions ${who}, but ${where} ${uniqueDomains.length > 1 ? 'do' : 'does'} not belong to ${who}.`, tier: 'strong' });
     }
     // Government claims need a government domain
-    const govClaims = authority.filter((m) => m.org.kind === 'gov' || m.org.kind === 'foreign-gov');
-    if (govClaims.length && !anyGov && !matched.some((m) => m.org.kind === 'gov' || m.org.kind === 'foreign-gov')) {
+    // (a school or a verified company may mention an agency in passing, e.g. "USCIS must receive your I-765")
+    const govClaims = authority.filter((m) => (m.org.kind === 'gov' || m.org.kind === 'foreign-gov') && !(m.org.domains.length === 0 && matched.length));
+    if (govClaims.length && !anyInstitutional && !matched.length) {
       add('gov_edu_mismatch', 'strong', { kind: 'domain', text: `It presents itself as ${govClaims[0].org.name}, but none of its addresses (${uniqueDomains.map((d) => d.reg).join(', ')}) is a government domain.`, tier: 'strong' });
     }
     // School claims need a school domain (or a known school vendor)
@@ -160,6 +169,12 @@ export function analyze(input) {
   if (sender.kind === 'email' && FREEMAIL.has(sender.registrable)) {
     const who = mentioned.find((m) => m.claim && (m.org.kind !== 'company' || CLAIM_SENSITIVE.has(m.org.id)) && !isOfficial(m.org, sender.registrable));
     if (who) add('freemail_sender', 'strong', { kind: 'sender', text: `It claims to be ${who.org.name}, but it was sent from a free ${sender.registrable} account.`, tier: 'strong' });
+  }
+
+  // ---- a short link in a message that claims to be a known organisation: real ones link to their own site
+  if (signs.has('link_shortener') && mentioned.some((m) => m.claim && m.org.domains.length)) {
+    signs.get('link_shortener').tier = 'strong';
+    signs.get('link_shortener').evidence.push({ kind: 'domain', text: `It says it is from ${mentioned.find((m) => m.claim && m.org.domains.length).org.name}, but uses a shortened link instead of that organisation's own website.`, tier: 'strong' });
   }
 
   // ---- calibration: a matching address lowers (does not remove) pressure signals

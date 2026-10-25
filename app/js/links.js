@@ -69,7 +69,9 @@ export function extractLinks(text) {
       if (/^\d+(\.\d+)*$/.test(host)) continue; // version numbers, amounts
       if (host.split('.').some((l) => l.length === 1) && host.length < 6) continue; // "e.g", "U.S"
     }
-    out.push({ raw, start: m.index, end: m.index + raw.length });
+    // "BESTBUY.COM" in a bank alert is a merchant name, not a link: bare, all caps, no path
+    const merchantName = !/^(https?|hxxps?):\/\/|^www\./i.test(raw) && !raw.includes('/') && raw === raw.toUpperCase() && /[A-Z]/.test(raw);
+    out.push({ raw, start: m.index, end: m.index + raw.length, merchantName });
   }
   return out;
 }
@@ -200,9 +202,10 @@ function lookalikeChecks(a, add) {
     if (brand) {
       add('lookalike_domain', 'strong', `“${labelUni}” is spelled with lookalike characters so that it reads like “${sk}” (${brand.name}). It is a different domain.`);
     } else if (sk !== labelUni.toLowerCase() && /^[a-z0-9-]+$/.test(sk)) {
-      add('lookalike_domain', 'moderate', `“${labelUni}” is made of characters that look like the Latin letters “${sk}” but are not.`);
+      const mixed = scripts.size > 1 && scripts.has('Latin');
+      add('lookalike_domain', mixed ? 'strong' : 'moderate', `“${labelUni}” ${mixed ? 'mixes ordinary letters with characters from another alphabet' : 'is made of characters'} that look like the Latin letters “${sk}” but are not.${isGovEduSuffix(info) ? ' The .edu or .gov ending does not make it the real one.' : ''}`);
     } else if (scripts.size > 1 && scripts.has('Latin')) {
-      add('lookalike_domain', 'moderate', `“${labelUni}” mixes ${[...scripts].join(' and ')} characters in one name, a common trick in fake domains.`);
+      add('lookalike_domain', 'strong', `“${labelUni}” mixes ${[...scripts].join(' and ')} characters in one name, a common trick in fake domains.`);
     }
   }
   // Subdomain lookalike characters
@@ -239,7 +242,7 @@ function lookalikeChecks(a, add) {
   // 4. Decoy brand in the subdomain: paypal.com.account-check.xyz
   if (a.subdomain) {
     const subParts = a.subdomain.split(/[.\-]/);
-    const hit = [...BRAND_LABELS.entries()].find(([k]) => subParts.includes(k));
+    const hit = [...BRAND_LABELS.entries(), ...BRAND_TOKENS.entries()].find(([k]) => subParts.includes(k) || (k.length >= 5 && subParts.some((p) => p.includes(k))));
     if (hit) add('lookalike_domain', 'strong', `The address starts with “${a.subdomain}”, but that part is a decoy: the site is really “${reg}”, which ${hit[1].name} does not own.`);
   }
   // 5. "gov"/"edu" used as a word inside a non-.gov/.edu domain: usps-gov.help, rutgers-edu-portal.net

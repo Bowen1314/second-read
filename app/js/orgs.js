@@ -17,7 +17,7 @@ export const ORGS = [
   { id: 'cbp', name: 'US Customs and Border Protection', kind: 'gov', re: /\bCBP\b|Customs and Border Protection/, domains: ['cbp.gov'], tokens: ['cbp'] },
   { id: 'marshals', name: 'US Marshals', kind: 'gov', re: /\b(U\.?S\.? )?Marshals?( Service)?\b/i, domains: ['usmarshals.gov'], tokens: ['usmarshals'] },
   { id: 'ed', name: 'US Department of Education / Federal Student Aid', kind: 'gov', re: /Department of Education|Federal Student Aid|\bFAFSA\b/i, domains: ['ed.gov', 'studentaid.gov'], tokens: ['studentaid', 'fafsa'] },
-  { id: 'govgeneric', name: 'a government office', kind: 'gov', re: /\b(the )?(Embassy|Consulate|Customs( Office| Department)?|police department|sheriff['’]?s office|immigration (office|department|services|officer)|Department of (Justice|Labor)|investigating officer|federal agent|government agency|Supreme Court|district court)\b/i, domains: [], tokens: [] },
+  { id: 'govgeneric', name: 'a government office', kind: 'gov', re: /海关|\b(the )?(Embassy|Consulate|Customs( Office| Department)?|police department|sheriff['’]?s office|immigration (office|department|services|officer)|Department of (Justice|Labor)|investigating officer|federal agent|government agency|Supreme Court|district court)\b/i, domains: [], tokens: [] },
   // --- foreign government (must use a government suffix such as gov.cn) ---
   { id: 'cnpolice', name: 'Chinese police / embassy', kind: 'foreign-gov', re: /Chinese (police|embassy|consulate)|Embassy of China|公安|警察|大使馆|领事馆|检察院|法院/i, domains: ['china-embassy.gov.cn', 'mps.gov.cn', 'mfa.gov.cn'], tokens: [] },
   // --- universities (generic) ---
@@ -27,6 +27,7 @@ export const ORGS = [
   { id: 'ups', name: 'UPS', kind: 'company', re: /\bUPS\b/, domains: ['ups.com'], tokens: ['ups'] },
   { id: 'fedex', name: 'FedEx', kind: 'company', re: /\bFed ?Ex\b/i, domains: ['fedex.com'], tokens: ['fedex'] },
   { id: 'dhl', name: 'DHL', kind: 'company', re: /\bDHL\b/i, domains: ['dhl.com'], tokens: ['dhl'] },
+  { id: 'ezpass', name: 'E-ZPass', kind: 'gov', re: /\bE-?ZPass\b|\btoll (services|authority|balance)\b/i, domains: ['e-zpassny.com', 'ezpassnj.com', 'e-zpassiag.com'], tokens: ['ezpass', 'zpass'] },
   // --- shopping, payments, tech ---
   { id: 'amazon', name: 'Amazon', kind: 'company', re: /\bAmazon\b/i, domains: ['amazon.com', 'amazon.jobs', 'amazonaws.com'], tokens: ['amazon'] },
   { id: 'paypal', name: 'PayPal', kind: 'company', re: /\bPay ?Pal\b/i, domains: ['paypal.com', 'paypal.me'], tokens: ['paypal'] },
